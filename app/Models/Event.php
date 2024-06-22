@@ -12,6 +12,22 @@ class Event extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'start_time',
+        'end_time',
+        'user_id',
+    ];
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function getImageAttribute($value): string
+    {
+        return asset('storage/' . $value);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
