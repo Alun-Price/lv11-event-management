@@ -12,13 +12,15 @@ class EventController extends Controller
 {
     use CanLoadRelationships;
 
+    private array  $relations = ['user', 'attendees', 'attendees.user'];
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $relations = ['user', 'attendees', 'attendees.user'];
-        $query = $this->loadRelationships(Event::query(), $relations);
+
+        $query = $this->loadRelationships(Event::query());
 
 
         return EventResource::collection(
@@ -40,7 +42,7 @@ class EventController extends Controller
                 'start_time' => 'required|date',
                 'end_time' => 'required|date|after:start_time',
             ]),
-            'user_id' => 1
+            'user_id' => $request->user()->id
 
         ]);
 
