@@ -26,7 +26,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')
+->middleware('auth:sanctum');
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -34,4 +35,5 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('events', EventController::class)->middleware('auth:sanctum')->except('index', 'show');
 Route::apiResource('events.attendees', AttendeeController::class)
+    ->middleware('auth:sanctum')
     ->scoped()->except(['update']);
