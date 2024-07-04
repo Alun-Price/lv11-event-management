@@ -41,8 +41,7 @@ class AttendeeController extends Controller
     {
         $attendee = $this->loadRelationships(
             $event->attendees()->create([
-            'user_id' => 1,
-            // 'event_id' => $event->id,
+            'user_id' => $request->user()->id,
             ])
         );
 
@@ -64,11 +63,8 @@ class AttendeeController extends Controller
      */
     public function destroy(Event $event, Attendee $attendee)
     {
-        // if (Gate::denies('delete-attendee', $attendee)) {
-        //     abort(403, 'Unauthorized');
-        // }
-        Gate::authorize('delete-attendee', [$event, $attendee]);
         $attendee->delete();
+
         return response(status: 204);
     }
 }
